@@ -1,7 +1,9 @@
 package org.agoncal.sample.loadScriptSource;
 
+
 import javax.persistence.*;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Antonio Goncalves
@@ -10,7 +12,7 @@ import java.util.Date;
  *         --
  */
 @Entity
-public class Book {
+public class CD {
 
     // ======================================
     // =             Attributes             =
@@ -32,48 +34,35 @@ public class Book {
     @Column(length = 3000)
     private String description;
 
-    @Column(length = 15)
-    private String isbn;
-
-    @Column(name = "nb_of_pages")
-    private Integer nbOfPages;
-
-    @Column(name = "publication_date")
-    @Temporal(TemporalType.DATE)
-    private Date publicationDate;
-
-    @Enumerated
-    private Language language;
-
-    @Column(name = "image_url")
-    private String imageURL;
+    @Column(name = "total_duration")
+    private Float totalDuration;
 
     @ManyToOne
-    private Category category;
+    private MajorLabel label;
 
     @ManyToOne
-    private Author author;
+    private Genre genre;
 
-    @ManyToOne
-    private Publisher publisher;
+    @ManyToMany
+    private Set<Musician> musicians = new HashSet<Musician>();
 
     // ======================================
     // =          Getters & Setters         =
     // ======================================
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
     public int getVersion() {
-        return version;
+        return this.version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(final int version) {
         this.version = version;
     }
 
@@ -101,68 +90,36 @@ public class Book {
         this.description = description;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public Float getTotalDuration() {
+        return totalDuration;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setTotalDuration(Float totalDuration) {
+        this.totalDuration = totalDuration;
     }
 
-    public Integer getNbOfPages() {
-        return nbOfPages;
+    public MajorLabel getLabel() {
+        return this.label;
     }
 
-    public void setNbOfPages(Integer nbOfPages) {
-        this.nbOfPages = nbOfPages;
+    public void setLabel(final MajorLabel label) {
+        this.label = label;
     }
 
-    public Date getPublicationDate() {
-        return publicationDate;
+    public Genre getGenre() {
+        return this.genre;
     }
 
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
+    public void setGenre(final Genre genre) {
+        this.genre = genre;
     }
 
-    public Language getLanguage() {
-        return language;
+    public Set<Musician> getMusicians() {
+        return this.musicians;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
+    public void setMusicians(final Set<Musician> musicians) {
+        this.musicians = musicians;
     }
 
     // ======================================
@@ -174,10 +131,10 @@ public class Book {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Book)) {
+        if (!(obj instanceof CD)) {
             return false;
         }
-        Book other = (Book) obj;
+        CD other = (CD) obj;
         if (id != null) {
             if (!id.equals(other.id)) {
                 return false;
@@ -203,12 +160,8 @@ public class Book {
             result += ", price: " + price;
         if (description != null && !description.trim().isEmpty())
             result += ", description: " + description;
-        if (isbn != null && !isbn.trim().isEmpty())
-            result += ", isbn: " + isbn;
-        if (nbOfPages != null)
-            result += ", nbOfPages: " + nbOfPages;
-        if (imageURL != null && !imageURL.trim().isEmpty())
-            result += ", imageURL: " + imageURL;
+        if (totalDuration != null)
+            result += ", totalDuration: " + totalDuration;
         return result;
     }
 }
